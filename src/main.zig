@@ -19,14 +19,21 @@ pub fn main() anyerror!void {
     rl.initWindow(screenWidth, screenHeight, "raylib-zig dvd animation");
     defer rl.closeWindow();
 
-    rl.setTargetFPS(60);
+    rl.setTargetFPS(75);
     rl.toggleFullscreen();
     rl.hideCursor();
 
-    const logo = rl.loadTexture("logo.png");
+    // TODO: embed logo into binary (method below is horribly inefficient)
+    // const t = rl.loadImage("logo.png");
+    // _ = rl.exportImageAsCode(t,"image.zig");
+
+    const logo = rl.loadTexture("/home/zen/dvd/logo.png");
     defer rl.unloadTexture(logo);
 
-    var playerPos = rl.Vector2{ .x = @floatFromInt(rl.getRandomValue(0,1920)), .y = @floatFromInt(rl.getRandomValue(0,1080)) };
+    var playerPos = rl.Vector2{
+        .x = @floatFromInt(rl.getRandomValue(0,screenWidth)),
+        .y = @floatFromInt(rl.getRandomValue(0,screenHeight))
+    };
     var playerVel = rl.Vector2{ .x = 200, .y = 250 };
 
     var randomColor = getRandomColor();
@@ -35,7 +42,7 @@ pub fn main() anyerror!void {
     const logoHeight: f32 = @floatFromInt(logo.height);
     const logoScale: f32 = 0.1;
 
-    outer: while (!rl.windowShouldClose()) {
+    while (!rl.windowShouldClose()) {
         // ---- LOGIC ---- //
         const dt = rl.getFrameTime();
         playerPos.x += playerVel.x * dt;
@@ -53,12 +60,6 @@ pub fn main() anyerror!void {
         // ---- DRAW ---- //
         rl.beginDrawing();
         defer rl.endDrawing();
-
-        if (rl.getKeyPressed() != rl.KeyboardKey.key_null) {
-            // TODO: detect mouse input
-            // or rm.vector2Equals(rl.getMousePosition(), rl.Vector2{ .x = 0, .y = 0 } ) != ) {
-            break :outer;
-        }
 
         rl.drawTextureEx(logo, playerPos, 0, logoScale, randomColor);
         rl.clearBackground(rl.Color.black);
