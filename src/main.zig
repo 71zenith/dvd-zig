@@ -6,7 +6,8 @@ pub fn getRandomColor() rl.Color {
         .r = @intCast(rl.getRandomValue(100, 255)),
         .g = @intCast(rl.getRandomValue(100, 255)),
         .b = @intCast(rl.getRandomValue(100, 255)),
-        .a = @as(u8, 255) };
+        .a = @as(u8, 255)
+    };
 }
 
 pub fn main() anyerror!void {
@@ -14,6 +15,7 @@ pub fn main() anyerror!void {
     const screenHeight = 450;
 
     rl.initWindow(screenWidth, screenHeight, "raylib-zig dvd animation");
+    rl.toggleFullscreen();
     defer rl.closeWindow();
     rl.setTargetFPS(60);
 
@@ -29,9 +31,9 @@ pub fn main() anyerror!void {
     const logoHeight: f32 = @floatFromInt(logo.height);
 
     while (!rl.windowShouldClose()) {
-        const delta = rl.getFrameTime();
-        playerPos.x += playerVel.x * delta;
-        playerPos.y += playerVel.y * delta;
+        const dt = rl.getFrameTime();
+        playerPos.x += playerVel.x * dt;
+        playerPos.y += playerVel.y * dt;
 
         if (playerPos.x < 0 or (playerPos.x + (logoWidth * 0.1)) > @as(f32, screenWidth)) {
             playerVel.x *= -1;
@@ -45,9 +47,9 @@ pub fn main() anyerror!void {
         defer rl.endDrawing();
 
         rl.drawTextureEx(logo, playerPos, 0, 0.1, randomColor);
-        rl.drawFPS(50, 50);
         rl.clearBackground(rl.Color.black);
 
+        // rl.drawFPS(50, 50);
         //rl.drawText("Congrats! You created your first window!", 190, 200, 20, rl.Color.light_gray);
     }
 }
