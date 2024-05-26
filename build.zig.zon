@@ -1,6 +1,6 @@
 .{
     .name = "dvd",
-    .version = "0.0.1",
+    .version = "0.1.0",
     .dependencies = .{
         .@"raylib-zig" = .{
             .url = "https://github.com/Not-Nik/raylib-zig/archive/devel.tar.gz",

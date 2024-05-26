@@ -19,8 +19,9 @@ pub fn main() anyerror!void {
     rl.initWindow(screenWidth, screenHeight, "raylib-zig dvd animation");
     defer rl.closeWindow();
 
-    rl.setTargetFPS(120);
+    rl.setTargetFPS(74);
     rl.toggleFullscreen();
+    defer rl.toggleFullscreen();
     rl.hideCursor();
     std.debug.print("Size: {}", .{rl.getScreenWidth()});
 
