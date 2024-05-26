@@ -64,9 +64,6 @@ pub fn main() anyerror!void {
         }
 
         if (rl.getKeyPressed() != rl.KeyboardKey.key_null or rm.vector2Equals(rl.getMouseDelta(), rl.Vector2{ .x = 0, .y = 0 } ) != 1 ) {
-            // TODO: detect mouse input 100%
-            // hyprland does weird shit with mouse. need a delay
-            // std.debug.print("NOT THIS AGAIN {} \n {}\n", .{rl.getKeyPressed() , rl.getMouseDelta()});
             if (rl.getTime() > 0.5) {
                 break :outer;
             }
