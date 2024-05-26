@@ -19,30 +19,35 @@ pub fn main() anyerror!void {
     rl.initWindow(screenWidth, screenHeight, "raylib-zig dvd animation");
     defer rl.closeWindow();
 
-    rl.setTargetFPS(75);
+    rl.setTargetFPS(120);
     rl.toggleFullscreen();
     rl.hideCursor();
+    std.debug.print("Size: {}", .{rl.getScreenWidth()});
 
-    // TODO: embed logo into binary (method below is horribly inefficient)
-    // const t = rl.loadImage("logo.png");
-    // _ = rl.exportImageAsCode(t,"image.zig");
-
-    const logo = rl.loadTexture("/home/zen/dvd/logo.png");
+    var logo: rl.Texture = undefined;
+    const logofile = "/usr/share/dvd/logo.png";
+    if (rl.fileExists(logofile)) {
+        logo = rl.loadTexture(logofile);
+    } else {
+        logo = rl.loadTexture("logo.png");
+    }
     defer rl.unloadTexture(logo);
-
-    var playerPos = rl.Vector2{
-        .x = @floatFromInt(rl.getRandomValue(0,screenWidth)),
-        .y = @floatFromInt(rl.getRandomValue(0,screenHeight))
-    };
-    var playerVel = rl.Vector2{ .x = 200, .y = 250 };
-
-    var randomColor = getRandomColor();
 
     const logoWidth: f32 = @floatFromInt(logo.width);
     const logoHeight: f32 = @floatFromInt(logo.height);
     const logoScale: f32 = 0.1;
 
-    while (!rl.windowShouldClose()) {
+    var playerPos = rl.Vector2{
+        .x = @floatFromInt(rl.getRandomValue(screenWidth * 1/4, screenWidth * 3/4)),
+        .y = @floatFromInt(rl.getRandomValue(screenHeight * 1/4, screenHeight * 3/4)),
+    };
+
+    var playerVel = rl.Vector2{ .x = 200, .y = 250 };
+
+    var randomColor = getRandomColor();
+
+
+    outer: while (!rl.windowShouldClose()) {
         // ---- LOGIC ---- //
         const dt = rl.getFrameTime();
         playerPos.x += playerVel.x * dt;
@@ -57,14 +62,20 @@ pub fn main() anyerror!void {
             randomColor = getRandomColor();
         }
 
+        if (rl.getKeyPressed() != rl.KeyboardKey.key_null or rm.vector2Equals(rl.getMouseDelta(), rl.Vector2{ .x = 0, .y = 0 } ) != 1 ) {
+            // TODO: detect mouse input 100%
+            // hyprland does weird shit with mouse. need a delay
+            // std.debug.print("NOT THIS AGAIN {} \n {}\n", .{rl.getKeyPressed() , rl.getMouseDelta()});
+            if (rl.getTime() > 0.5) {
+                break :outer;
+            }
+        }
+
         // ---- DRAW ---- //
         rl.beginDrawing();
         defer rl.endDrawing();
 
         rl.drawTextureEx(logo, playerPos, 0, logoScale, randomColor);
         rl.clearBackground(rl.Color.black);
-
-        // rl.drawFPS(50, 50);
-        // rl.drawText("Congrats! You created your first window!", 190, 200, 20, rl.Color.light_gray);
     }
 }

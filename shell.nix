@@ -5,13 +5,12 @@ pkgs.mkShell {
     pkg-config
     zig
     xorg.libX11
+    zls
     libGLU
     xorg.libXcursor
-    raylib
     xorg.libXrandr
     xorg.libXinerama
     xorg.xinput
-    xorg.libX11.dev
     xorg.libXft
     xorg.libXi.dev
   ];
