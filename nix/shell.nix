@@ -1,7 +1,7 @@
 {pkgs ? import <nixpkgs> {}}:
 pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
-    libGLU
+    glfw
     wayland-scanner
     wayland
     libxkbcommon

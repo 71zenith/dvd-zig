@@ -4,7 +4,7 @@
   fetchFromGitHub,
   callPackage,
   zig_0_12,
-  libGLU,
+  glfw,
   wayland-scanner,
   wayland,
   libxkbcommon,
@@ -19,20 +19,20 @@ stdenv.mkDerivation (finalAttrs: {
     rev = "v${finalAttrs.version}";
     hash = "sha256-1I90fsJZ2fMc4HUavtUC3vYz71tpWdC6KnD+mI4Srhs=";
   };
-  runtimeDependencies = [
-    wayland
-    wayland-scanner
-  ];
   postPatch = ''
     ln -s ${callPackage ./zon.nix {}} $ZIG_GLOBAL_CACHE_DIR/p
   '';
 
-  buildInputs = [
+  nativeBuildInputs = [
     zig_0_12.hook
-    libGLU
+    glfw
     wayland-scanner
     wayland
     libxkbcommon
+  ];
+
+  buildInputs = [
+    wayland
   ];
 
   meta = {
