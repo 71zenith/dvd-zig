@@ -12,12 +12,10 @@ stdenv.mkDerivation (finalAttrs: {
   pname = "dvd";
   version = "latest";
 
-  src = ./.;
+  src = ../.;
 
   postPatch = ''
     ln -s ${callPackage ./zon.nix {}} $ZIG_GLOBAL_CACHE_DIR/p
-    mkdir -p $out/share/dvd
-    cp -r logo.png $out/share/dvd
   '';
 
   nativeBuildInputs = [
@@ -29,6 +27,8 @@ stdenv.mkDerivation (finalAttrs: {
   ];
 
   postFixup = ''
+    mkdir -p $out/share/dvd
+    cp -r ${finalAttrs.src}/logo.png $out/share/dvd
     patchelf $out/bin/dvd \
       --add-needed libwayland-client.so \
       --add-needed libwayland-cursor.so \
