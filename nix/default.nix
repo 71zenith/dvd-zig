@@ -4,7 +4,7 @@
   fetchFromGitHub,
   callPackage,
   zig_0_12,
-  glfw,
+  libGL,
   wayland-scanner,
   wayland,
   libxkbcommon,
@@ -25,7 +25,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   nativeBuildInputs = [
     zig_0_12.hook
-    glfw
+    libGL
     wayland-scanner
     wayland
     libxkbcommon
@@ -34,6 +34,22 @@ stdenv.mkDerivation (finalAttrs: {
   buildInputs = [
     wayland
   ];
+
+  postFixup = ''
+    patchelf $out/bin/dvd \
+      --add-needed libwayland-client.so \
+      --add-needed libwayland-cursor.so \
+      --add-needed libwayland-egl.so \
+      --add-rpath ${lib.makeLibraryPath [wayland]}
+
+    patchelf $out/bin/dvd \
+      --add-needed libxkbcommon.so \
+      --add-rpath ${lib.makeLibraryPath [libxkbcommon]}
+
+    patchelf $out/bin/dvd \
+      --add-needed libEGL.so \
+      --add-rpath ${lib.makeLibraryPath [libGL]}
+  '';
 
   meta = {
     description = "DVD screensaver in zig";
