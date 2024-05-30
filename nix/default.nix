@@ -1,7 +1,6 @@
 {
   lib,
   stdenv,
-  fetchFromGitHub,
   callPackage,
   zig_0_12,
   libGL,
@@ -11,16 +10,14 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "dvd";
-  version = "0.2.0";
+  version = "latest";
 
-  src = fetchFromGitHub {
-    owner = "71zenith";
-    repo = "dvd-zig";
-    rev = "v${finalAttrs.version}";
-    hash = "sha256-1I90fsJZ2fMc4HUavtUC3vYz71tpWdC6KnD+mI4Srhs=";
-  };
+  src = ./.;
+
   postPatch = ''
     ln -s ${callPackage ./zon.nix {}} $ZIG_GLOBAL_CACHE_DIR/p
+    mkdir -p $out/share/dvd
+    cp -r logo.png $out/share/dvd
   '';
 
   nativeBuildInputs = [
@@ -29,10 +26,6 @@ stdenv.mkDerivation (finalAttrs: {
     wayland-scanner
     wayland
     libxkbcommon
-  ];
-
-  buildInputs = [
-    wayland
   ];
 
   postFixup = ''
