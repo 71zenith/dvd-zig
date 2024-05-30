@@ -40,15 +40,9 @@ stdenv.mkDerivation (finalAttrs: {
       --add-needed libwayland-client.so \
       --add-needed libwayland-cursor.so \
       --add-needed libwayland-egl.so \
-      --add-rpath ${lib.makeLibraryPath [wayland]}
-
-    patchelf $out/bin/dvd \
       --add-needed libxkbcommon.so \
-      --add-rpath ${lib.makeLibraryPath [libxkbcommon]}
-
-    patchelf $out/bin/dvd \
       --add-needed libEGL.so \
-      --add-rpath ${lib.makeLibraryPath [libGL]}
+      --add-rpath ${lib.makeLibraryPath [wayland libxkbcommon libGL]}
   '';
 
   meta = {
