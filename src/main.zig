@@ -26,9 +26,23 @@ pub fn main() anyerror!void {
     std.debug.print("Size: {}", .{rl.getScreenWidth()});
 
     var logo: rl.Texture = undefined;
-    const logofile = "/usr/share/dvd/logo.png";
-    if (rl.fileExists(logofile)) {
-        logo = rl.loadTexture(logofile);
+
+    const allocator = std.heap.page_allocator;
+
+    const exe_dir = try std.fs.selfExeDirPathAlloc(allocator);
+    defer allocator.free(exe_dir);
+
+    const logofile = try std.fmt.allocPrint(allocator, "{s}/../share/dvd/logo.png", .{exe_dir});
+    defer allocator.free(logofile);
+
+    var mem = try allocator.alloc(u8, logofile.len + 1);
+    defer allocator.free(mem);
+
+    @memcpy(mem[0..logofile.len],logofile);
+    mem[logofile.len] = 0;
+
+    if (rl.fileExists(mem[0..logofile.len:0])) {
+        logo = rl.loadTexture(mem[0..logofile.len:0]);
     } else {
         logo = rl.loadTexture("logo.png");
     }
@@ -76,4 +90,5 @@ pub fn main() anyerror!void {
         rl.drawTextureEx(logo, playerPos, 0, logoScale, randomColor);
         rl.clearBackground(rl.Color.black);
     }
+
 }
