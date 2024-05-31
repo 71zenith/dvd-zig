@@ -12,21 +12,7 @@ pub fn getRandomColor() rl.Color {
     };
 }
 
-pub fn main() anyerror!void {
-    const screenWidth = 1920;
-    const screenHeight = 1080;
-
-    rl.initWindow(screenWidth, screenHeight, "raylib-zig dvd animation");
-    defer rl.closeWindow();
-
-    rl.setTargetFPS(74);
-    rl.toggleFullscreen();
-    defer rl.toggleFullscreen();
-    rl.hideCursor();
-    std.debug.print("Size: {}", .{rl.getScreenWidth()});
-
-    var logo: rl.Texture = undefined;
-
+pub fn getLogoLoc() anyerror![:0]const u8 {
     const allocator = std.heap.page_allocator;
 
     const exe_dir = try std.fs.selfExeDirPathAlloc(allocator);
@@ -40,9 +26,26 @@ pub fn main() anyerror!void {
 
     @memcpy(mem[0..logofile.len],logofile);
     mem[logofile.len] = 0;
+    return mem[0..logofile.len:0];
+}
 
-    if (rl.fileExists(mem[0..logofile.len:0])) {
-        logo = rl.loadTexture(mem[0..logofile.len:0]);
+pub fn main() anyerror!void {
+    const screenWidth = 1920;
+    const screenHeight = 1080;
+
+    rl.initWindow(screenWidth, screenHeight, "raylib-zig dvd animation");
+    defer rl.closeWindow();
+
+    rl.setTargetFPS(74);
+    rl.toggleFullscreen();
+    rl.hideCursor();
+
+    var logo: rl.Texture = undefined;
+
+    const logofile = try getLogoLoc();
+
+    if (rl.fileExists(logofile)) {
+        logo = rl.loadTexture(logofile);
     } else {
         logo = rl.loadTexture("logo.png");
     }
