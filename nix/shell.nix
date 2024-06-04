@@ -7,6 +7,7 @@ pkgs.mkShell {
     libxkbcommon
   ];
   buildInputs = with pkgs; [
+    zon2nix
     lolcat
     zig
     zls
