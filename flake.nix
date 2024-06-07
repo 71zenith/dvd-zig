@@ -20,5 +20,13 @@
         default = dvd-zig;
       };
       devShells.default = import ./nix/shell.nix {inherit pkgs;};
-    });
+    })
+    // {
+      overlays = rec {
+        default = dvd-zig;
+        dvd-zig = final: prev: {
+          dvd-zig = self.packages."${final.system}".dvd-zig;
+        };
+      };
+    };
 }

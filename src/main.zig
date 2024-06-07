@@ -12,8 +12,7 @@ pub fn getRandomColor() rl.Color {
     };
 }
 
-pub fn getLogoLoc() anyerror![:0]const u8 {
-}
+pub fn notify() anyerror!void {}
 
 pub fn main() anyerror!void {
     const screenWidth = 1920;
