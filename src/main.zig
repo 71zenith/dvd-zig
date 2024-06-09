@@ -3,8 +3,6 @@ const rl = @import("raylib");
 const rm = rl.math;
 const std = @import("std");
 
-pub fn notify() anyerror!void {}
-
 pub fn getRandomColor() rl.Color {
     return rl.Color{
         .r = @intCast(rl.getRandomValue(100, 255)),
@@ -23,8 +21,6 @@ pub fn main() anyerror!void {
     const screenWidth = rl.getMonitorWidth(mon);
     const screenHeight = rl.getMonitorWidth(mon);
     rl.setWindowSize(screenWidth, screenHeight);
-
-    std.debug.print("OK:{} {}", .{screenHeight, screenWidth});
 
     rl.setTargetFPS(74);
     rl.hideCursor();
