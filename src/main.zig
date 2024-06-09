@@ -3,6 +3,8 @@ const rl = @import("raylib");
 const rm = @import("raylib-math");
 const std = @import("std");
 
+pub fn notify() anyerror!void {}
+
 pub fn getRandomColor() rl.Color {
     return rl.Color{
         .r = @intCast(rl.getRandomValue(100, 255)),
@@ -12,21 +14,21 @@ pub fn getRandomColor() rl.Color {
     };
 }
 
-pub fn notify() anyerror!void {}
-
 pub fn main() anyerror!void {
-    const screenWidth = 1920;
-    const screenHeight = 1080;
-
-    rl.initWindow(screenWidth, screenHeight, "raylib-zig dvd animation");
+    rl.initWindow(0, 0, "raylib-zig dvd animation");
     defer rl.closeWindow();
 
+    const mon = rl.getCurrentMonitor();
+
+    const screenWidth = rl.getMonitorWidth(mon);
+    const screenHeight = rl.getMonitorWidth(mon);
+    rl.setWindowSize(screenWidth, screenHeight);
+
+    std.debug.print("OK:{} {}", .{screenHeight, screenWidth});
+
     rl.setTargetFPS(74);
-    rl.toggleFullscreen();
     rl.hideCursor();
-
-    var logo: rl.Texture = undefined;
-
+    rl.toggleFullscreen();
     const allocator = std.heap.page_allocator;
 
     const exe_dir = try std.fs.selfExeDirPathAlloc(allocator);
@@ -41,6 +43,7 @@ pub fn main() anyerror!void {
     @memcpy(mem[0..logofile.len],logofile);
     mem[logofile.len] = 0;
 
+    var logo: rl.Texture = undefined;
     if (rl.fileExists(mem[0..logofile.len:0])) {
         logo = rl.loadTexture(mem[0..logofile.len:0]);
     } else {
@@ -53,8 +56,8 @@ pub fn main() anyerror!void {
     const logoScale: f32 = 0.1;
 
     var playerPos = rl.Vector2{
-        .x = @floatFromInt(rl.getRandomValue(screenWidth * 1/4, screenWidth * 3/4)),
-        .y = @floatFromInt(rl.getRandomValue(screenHeight * 1/4, screenHeight * 3/4)),
+        .x = @floatFromInt(rl.getRandomValue(screenWidth * @as(i32,@intCast(1/4)),screenWidth * @as(i32,@intCast(1/4)))),
+        .y = @floatFromInt(rl.getRandomValue(screenHeight * @as(i32,@intCast(1/4)),screenHeight * @as(i32,@intCast(1/4)))),
     };
 
     var playerVel = rl.Vector2{ .x = 200, .y = 250 };
@@ -68,11 +71,11 @@ pub fn main() anyerror!void {
         playerPos.x += playerVel.x * dt;
         playerPos.y += playerVel.y * dt;
 
-        if (playerPos.x < 0 or (playerPos.x + (logoWidth * logoScale)) > @as(f32, screenWidth)) {
+        if (playerPos.x < 0 or (playerPos.x + (logoWidth * logoScale)) > @as(f32,@floatFromInt(screenWidth))) {
             playerVel.x *= -1;
             randomColor = getRandomColor();
         }
-        if (playerPos.y < 0 or (playerPos.y + (logoHeight * logoScale)) > @as(f32, screenHeight)) {
+        if (playerPos.y < 0 or (playerPos.y + (logoHeight * logoScale)) > @as(f32,@floatFromInt(screenHeight))) {
             playerVel.y *= -1;
             randomColor = getRandomColor();
         }
