@@ -19,7 +19,7 @@ pub fn main() anyerror!void {
     const mon = rl.getCurrentMonitor();
 
     const screenWidth = rl.getMonitorWidth(mon);
-    const screenHeight = rl.getMonitorWidth(mon);
+    const screenHeight = rl.getMonitorHeight(mon);
     rl.setWindowSize(screenWidth, screenHeight);
 
     rl.setTargetFPS(74);

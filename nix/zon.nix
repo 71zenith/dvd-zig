@@ -14,7 +14,7 @@ linkFarm "zig-packages" [
     name = "1220aa75240ee6459499456ef520ab7e8bddffaed8a5055441da457b198fc4e92b26";
     path = fetchzip {
       url = "https://github.com/raysan5/raylib/archive/5767c4cd059e07355ae5588966d0aee97038a86b.tar.gz";
-      hash = "sha256-vdV69W9ic7ZjYBl7BxsxKQNKjuhx61nRSYQvgUy5sDI=";
+      hash = "sha256-2wKecOJqtM207JIK7ZxhtpXkNa7LnFN86eHRWyfRjlg=";
     };
   }
   {
