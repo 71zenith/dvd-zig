@@ -1,6 +1,6 @@
 // zig fmt: off
 const rl = @import("raylib");
-const rm = @import("raylib-math");
+const rm = rl.math;
 const std = @import("std");
 
 pub fn notify() anyerror!void {}

@@ -1,10 +1,10 @@
 .{
     .name = "dvd",
-    .version = "0.2.0",
+    .version = "0.3.0",
     .dependencies = .{
         .@"raylib-zig" = .{
-            .url = "https://github.com/Not-Nik/raylib-zig/archive/ae533ad60fa31e5fc4fe4c4551002305f85c397e.tar.gz",
-            .hash = "1220fa78e6bd9eae16393b1d842ba653445e7863589c39874ff1e1e9a3ff2b78e53b",
+            .url = "https://github.com/Not-Nik/raylib-zig/archive/43d15b05c2b97cab30103fa2b46cff26e91619ec.tar.gz",
+            .hash = "12204a223b19043e17b79300413d02f60fc8004c0d9629b8d8072831e352a78bf212",
         },
     },
     .paths = .{""},
