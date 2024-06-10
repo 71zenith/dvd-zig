@@ -8,8 +8,7 @@ pub fn getRandomColor() rl.Color {
         .r = @intCast(rl.getRandomValue(100, 255)),
         .g = @intCast(rl.getRandomValue(100, 255)),
         .b = @intCast(rl.getRandomValue(100, 255)),
-        .a = @as(u8, 255)
-    };
+        .a = @as(u8, 255) };
 }
 
 pub fn main() anyerror!void {
@@ -36,12 +35,12 @@ pub fn main() anyerror!void {
     var mem = try allocator.alloc(u8, logofile.len + 1);
     defer allocator.free(mem);
 
-    @memcpy(mem[0..logofile.len],logofile);
+    @memcpy(mem[0..logofile.len], logofile);
     mem[logofile.len] = 0;
 
     var logo: rl.Texture = undefined;
-    if (rl.fileExists(mem[0..logofile.len:0])) {
-        logo = rl.loadTexture(mem[0..logofile.len:0]);
+    if (rl.fileExists(mem[0..logofile.len :0])) {
+        logo = rl.loadTexture(mem[0..logofile.len :0]);
     } else {
         logo = rl.loadTexture("logo.png");
     }
@@ -52,14 +51,13 @@ pub fn main() anyerror!void {
     const logoScale: f32 = 0.1;
 
     var playerPos = rl.Vector2{
-        .x = @floatFromInt(rl.getRandomValue(screenWidth * @as(i32,@intCast(1/4)),screenWidth * @as(i32,@intCast(1/4)))),
-        .y = @floatFromInt(rl.getRandomValue(screenHeight * @as(i32,@intCast(1/4)),screenHeight * @as(i32,@intCast(1/4)))),
+        .x = @floatFromInt(rl.getRandomValue(screenWidth * @as(i32, @intCast(1 / 4)), screenWidth * @as(i32, @intCast(1 / 4)))),
+        .y = @floatFromInt(rl.getRandomValue(screenHeight * @as(i32, @intCast(1 / 4)), screenHeight * @as(i32, @intCast(1 / 4)))),
     };
 
-    var playerVel = rl.Vector2{ .x = 200, .y = 250 };
+    var playerVel = rl.Vector2{ .x = 200, .y = 200 };
 
     var randomColor = getRandomColor();
-
 
     outer: while (!rl.windowShouldClose()) {
         // ---- LOGIC ---- //
@@ -67,16 +65,18 @@ pub fn main() anyerror!void {
         playerPos.x += playerVel.x * dt;
         playerPos.y += playerVel.y * dt;
 
-        if (playerPos.x < 0 or (playerPos.x + (logoWidth * logoScale)) > @as(f32,@floatFromInt(screenWidth))) {
+        if (playerPos.x < 0 or (playerPos.x + (logoWidth * logoScale)) > @as(f32, @floatFromInt(screenWidth))) {
             playerVel.x *= -1;
             randomColor = getRandomColor();
         }
-        if (playerPos.y < 0 or (playerPos.y + (logoHeight * logoScale)) > @as(f32,@floatFromInt(screenHeight))) {
+        if (playerPos.y < 0 or (playerPos.y + (logoHeight * logoScale)) > @as(f32, @floatFromInt(screenHeight))) {
             playerVel.y *= -1;
             randomColor = getRandomColor();
         }
 
-        if (rl.getKeyPressed() != rl.KeyboardKey.key_null or rm.vector2Equals(rl.getMouseDelta(), rl.Vector2{ .x = 0, .y = 0 } ) != 1 ) {
+        if (rl.getKeyPressed() != rl.KeyboardKey.key_null or
+            rm.vector2Equals(rl.getMouseDelta(), rl.Vector2{ .x = 0, .y = 0 }) != 1)
+        {
             if (rl.getTime() > 0.5) {
                 break :outer;
             }
@@ -89,5 +89,4 @@ pub fn main() anyerror!void {
         rl.drawTextureEx(logo, playerPos, 0, logoScale, randomColor);
         rl.clearBackground(rl.Color.black);
     }
-
 }
