@@ -21,6 +21,8 @@ pub fn main() anyerror!void {
     const screenHeight = rl.getMonitorHeight(mon);
     rl.setWindowSize(screenWidth, screenHeight);
 
+    std.debug.print("THIS IMP = {}", .{rl.getMonitorCount()});
+
     rl.setTargetFPS(74);
     rl.hideCursor();
     rl.toggleFullscreen();
