@@ -21,11 +21,10 @@ pub fn main() anyerror!void {
     const screenHeight = rl.getMonitorHeight(mon);
     rl.setWindowSize(screenWidth, screenHeight);
 
-    std.debug.print("THIS IMP = {}", .{rl.getMonitorCount()});
-
     rl.setTargetFPS(74);
     rl.hideCursor();
     rl.toggleFullscreen();
+
     const allocator = std.heap.page_allocator;
 
     const exe_dir = try std.fs.selfExeDirPathAlloc(allocator);
@@ -53,8 +52,8 @@ pub fn main() anyerror!void {
     const logoScale: f32 = 0.1;
 
     var playerPos = rl.Vector2{
-        .x = @floatFromInt(rl.getRandomValue(screenWidth * @as(i32, @intCast(1 / 4)), screenWidth * @as(i32, @intCast(1 / 4)))),
-        .y = @floatFromInt(rl.getRandomValue(screenHeight * @as(i32, @intCast(1 / 4)), screenHeight * @as(i32, @intCast(1 / 4)))),
+        .x = @floatFromInt(rl.getRandomValue(@divExact(screenWidth, 4), @divExact(screenWidth*3, 4))),
+        .y = @floatFromInt(rl.getRandomValue(@divExact(screenHeight, 4), @divExact(screenHeight*3, 4)))
     };
 
     var playerVel = rl.Vector2{ .x = 200, .y = 200 };
