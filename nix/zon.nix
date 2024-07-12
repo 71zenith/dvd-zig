@@ -4,10 +4,10 @@
 }:
 linkFarm "zig-packages" [
   {
-    name = "12204a223b19043e17b79300413d02f60fc8004c0d9629b8d8072831e352a78bf212";
+    name = "122064a960fff658211413c4b3b56e1699719126c3d099d3ed43f9eaff17a936ad91";
     path = fetchzip {
-      url = "https://github.com/Not-Nik/raylib-zig/archive/43d15b05c2b97cab30103fa2b46cff26e91619ec.tar.gz";
-      hash = "sha256-e+7fLj3ETQ4/FhFelse87pwRxd2hrb5Zj1jDuKh1yak=";
+      url = "https://github.com/Not-Nik/raylib-zig/archive/a03b65a76c527771aa2ea69ad39c78406eefd19c.tar.gz";
+      hash = "sha256-810cf6jCREP+Mn4rDAKWnIBzRsDJdNLLOwhXUR5LXxY=";
     };
   }
   {

@@ -2,7 +2,7 @@
   lib,
   stdenv,
   callPackage,
-  zig_0_12,
+  zig,
   libGL,
   wayland-scanner,
   wayland,
@@ -19,7 +19,7 @@ stdenv.mkDerivation (finalAttrs: {
   '';
 
   nativeBuildInputs = [
-    zig_0_12.hook
+    zig.hook
     libGL
     wayland-scanner
     wayland
