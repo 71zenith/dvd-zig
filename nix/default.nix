@@ -43,7 +43,7 @@ stdenv.mkDerivation (finalAttrs: {
     mainProgram = "dvd";
     homepage = "https://github.com/71zenith/dvd-zig";
     license = lib.licenses.gpl3Plus;
-    maintainers = with lib.maintainers; [zen];
+    maintainers = with lib.maintainers; [_71zenith];
     platforms = lib.platforms.unix;
   };
 })

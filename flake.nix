@@ -25,7 +25,7 @@
       overlays = rec {
         default = dvd-zig;
         dvd-zig = final: prev: {
-          dvd-zig = self.packages."${final.system}".dvd-zig;
+          inherit (self.packages."${final.system}") dvd-zig;
         };
       };
     };
